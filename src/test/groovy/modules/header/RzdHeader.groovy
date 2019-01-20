@@ -7,11 +7,22 @@ class RzdHeader extends RzdModule {
 
     static content = {
 
+        def context = "//div[@id='headMenu']"
+        #headLinks > a.headLinks-link.headLinks-link-pda.j-link-pda
+        ВерсияДляСВ { $(By.xpath("${context}//a[@title='Версия для слабовидящих']")) }
+        КартаСайта { $(By.xpath("${context}//a[@title='Карта сайта']")) }
+        ГлавнаяСтраница { $(By.xpath("${context}//a[@title='Главная страница']")) }
+        ОтправитьПисьмо { $(By.xpath("${context}//a[@title='Отправить письмо']")) }
+
         О_Компании { $("a[href*='://']", text: 'О компании' )}
-        Пресс_Центр { find(By.xpath("//a[contains(text(), 'Пресс-центр')]")) }
-        Инвесторам { find(By.xpath("//a[contains(text(), 'Инвесторам')]")) }
-        Тендеры { find(By.xpath("//a[contains(text(), 'Тендеры')]")) }
-        Контакты { find(By.xpath("//a[contains(text(), 'Контакты')]")) }
+        Пресс_Центр { $(By.xpath("//a[contains(text(), 'Пресс-центр')]")) }
+        Инвесторам { $(By.xpath("//a[contains(text(), 'Инвесторам')]")) }
+        Тендеры { $(By.xpath("//a[contains(text(), 'Тендеры')]")) }
+        Контакты { $(By.xpath("//a[contains(text(), 'Контакты')]")) }
+        Пассажирам { $(By.xpath("${context}//a[text()='Пассажирам']")) }
+        ГрузовыеПеревозки { $(By.xpath("${context}//a[text()='Грузовые перевозки']")) }
+        РаботаВРЖД { $(By.xpath("${context}//a[text()='Работа в РЖД']")) }
+        Моложежный { $(By.xpath("${context}//a[text()='Молодежный']")) }
     }
 
 }

@@ -1,5 +1,6 @@
 package modules.header
 
+import org.openqa.selenium.By
 import rzd.RzdModule
 
 class RzdHeader extends RzdModule {

@@ -8,7 +8,8 @@ class RzdHeader extends RzdModule {
     static content = {
 
         def context = "//div[@id='headMenu']"
-        #headLinks > a.headLinks-link.headLinks-link-pda.j-link-pda
+
+        МобильнаяВерсия { $(By.xpath("${context}//a[contains(@href, 'http://m.rzd.ru')]")) }
         ВерсияДляСВ { $(By.xpath("${context}//a[@title='Версия для слабовидящих']")) }
         КартаСайта { $(By.xpath("${context}//a[@title='Карта сайта']")) }
         ГлавнаяСтраница { $(By.xpath("${context}//a[@title='Главная страница']")) }

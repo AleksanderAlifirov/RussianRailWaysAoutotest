@@ -9,7 +9,7 @@ class HeaderElementsSpec extends RzdSpec {
 
     def "Проверить корректное отображение элементов заголовка."() {
         given:
-        открытьСтартовуюСтраницу()
+        openStartPage()
         when:
         def view = at RzdStartPage
         then:
@@ -51,16 +51,5 @@ class HeaderElementsSpec extends RzdSpec {
         println "   Ссылка 'Все сайты' присутствует в заголовке"
         view.Меню_Заголовка.RSS.displayed
         println "   Ссылка 'RSS' присутствует в заголовке"
-
-
-
-
-
-
-
-
-
-
-
     }
 }

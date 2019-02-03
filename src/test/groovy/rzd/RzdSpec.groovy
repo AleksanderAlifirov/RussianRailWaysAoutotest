@@ -7,7 +7,7 @@ import spock.lang.Ignore
 @Ignore
 class RzdSpec extends GebReportingSpec {
 
-    def открытьСтартовуюСтраницу(){
+    def openStartPage(){
         to RzdStartPage
     }
 }

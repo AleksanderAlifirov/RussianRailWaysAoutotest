@@ -9,7 +9,7 @@ class StartPageSpec extends RzdSpec {
     def "Загрузка страницы www.rzd.ru"() {
         given:
 
-        открытьСтартовуюСтраницу()
+        openStartPage()
         at RzdStartPage
         println "   Стартовая страница присутствует."
     }

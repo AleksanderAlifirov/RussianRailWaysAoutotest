@@ -1,7 +1,11 @@
 package modules.greyBlocks
 
+import dialogs.DialogCalendar
+import geb.module.FormElement
 import org.openqa.selenium.By
 import org.openqa.selenium.Keys
+
+import java.lang.reflect.Field
 
 class Passengers extends GrayBlock_Base {
     static content = {
@@ -10,6 +14,11 @@ class Passengers extends GrayBlock_Base {
         Field_Date { $(By.xpath('//input[@title="Дата"]')) }
         ListOfDepartures { $(By.className('dropList'))[0] }
         ListOfDestinations { $(By.className('dropList'))[1] }
+        ArrowRight { $(By.xpath('//span[@class="date-arrow right"]')) }
+        ArrowLeft { $(By.xpath('//span[@class="date-arrow left"]')) }
+        Calendar_Icon { $(By.xpath('//div[@class=\'detailsItem InputWCalendar j-input-group\']')) }
+        Calendar { module DialogCalendar }
+        Button_Submit { $(By.id("Submit")) }
     }
 
     def listOfDeparturesIsDisplayed(){
@@ -100,5 +109,40 @@ class Passengers extends GrayBlock_Base {
             }
         }
         assert choosing :"   В списке 'Куда' станция $station отсутствует."
+    }
+
+    def inputDate(String date){
+        Field_Date.value(date)
+        println "   В поле 'Дата' установлено значение $date"
+    }
+
+    def selectFutureDate(String date){
+        String previousDate = Field_Date.value()
+        while(!Field_Date.value().toString().contains(date)){
+            ArrowRight.click()
+            waitFor { Field_Date.value() != previousDate }
+            previousDate = Field_Date.value()
+        }
+        assert Field_Date.value().toString().contains(date) : " Нужная дата не выбрана"
+        println "   Дата $date выбрана."
+    }
+
+    def selectPastDate(String date){
+        String previousDate = Field_Date.value()
+        while(!Field_Date.value().toString().contains(date)){
+            ArrowLeft.click()
+            waitFor { Field_Date.value() != previousDate }
+            previousDate = Field_Date.value()
+        }
+        assert Field_Date.value().toString().contains(date) : " Нужная дата не выбрана"
+        println "   Дата $date выбрана."
+    }
+
+    def pressButtonSubmit(){
+        println "   Ожидаем, что кнопка 'Найти' доступна для нажатия"
+        waitFor { Button_Submit.module(FormElement).isEnabled() }
+        println "   Нажимается кнопка 'Найти'"
+        Button_Submit.click()
+        println "   Кнопка нажата"
     }
 }

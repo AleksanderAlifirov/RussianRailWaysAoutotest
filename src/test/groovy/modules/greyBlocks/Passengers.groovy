@@ -19,6 +19,7 @@ class Passengers extends GrayBlock_Base {
         Calendar_Icon { $(By.xpath('//div[@class=\'detailsItem InputWCalendar j-input-group\']')) }
         Calendar { module DialogCalendar }
         Button_Submit { $(By.id("Submit")) }
+        My_Orders { $(By.xpath('//a[@href="https://pass.rzd.ru/ticket/secure/ru?STRUCTURE_ID=5235&refererVpId=1&refererPageId=704"]')) }
     }
 
     def listOfDeparturesIsDisplayed(){
@@ -66,17 +67,21 @@ class Passengers extends GrayBlock_Base {
         $(By.className('dropList'))[0].children().each {
             if (it.getAttribute('textContent') == station) {
                 it.click()
+            }
         }
-        }
+
+        waitFor { Field_Departure.value() == station }
     }
 
     def selectDestinationStationByClick(String station){
-        Field_Destination.value(station.substring(0, 3))
-        $(By.className('dropList'))[1].children().each {
-            if (it.getAttribute('textContent') == station) {
-                it.click()
+        Field_Destination.value(station)
+        def listOfStations = $(By.className('dropList'))[1].children()
+        (0..listOfStations.size() - 1).each {
+            if (listOfStations[it].getAttribute('textContent') == station) {
+                listOfStations[it].click()
             }
         }
+        waitFor {  Field_Destination.value() == station }
     }
 
     def selectDepartureStationByKeyPressing(String station){

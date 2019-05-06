@@ -22,7 +22,7 @@ class selectWaySpec extends RzdSpec {
         view.Left_GrayBlock.Passengers.Field_Date.displayed
         view.Left_GrayBlock.Passengers.inputDate('22.02.2019')
         waitFor { !view.Left_GrayBlock.Passengers.Field_Date.isEmpty() }
-        view.Left_GrayBlock.Passengers.selectFutureDate('25.02.2019')
+        view.Left_GrayBlock.Passengers.selectFutureDate('25.07.2019')
         view.Left_GrayBlock.Passengers.pressButtonSubmit()
         at TicketsAndPlace
         /*view.Left_GrayBlock.Passengers.selectPastDate('20.02.2019')

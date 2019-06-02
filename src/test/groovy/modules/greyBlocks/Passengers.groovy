@@ -4,6 +4,8 @@ import dialogs.DialogCalendar
 import geb.module.FormElement
 import org.openqa.selenium.By
 import org.openqa.selenium.Keys
+import org.openqa.selenium.WebElement
+import org.openqa.selenium.interactions.Actions
 
 import java.lang.reflect.Field
 
@@ -19,6 +21,7 @@ class Passengers extends GrayBlock_Base {
         Calendar_Icon { $(By.xpath('//div[@class=\'detailsItem InputWCalendar j-input-group\']')) }
         Calendar { module DialogCalendar }
         Button_Submit { $(By.id("Submit")) }
+        My_Orders { $(By.xpath('//a[@href="https://pass.rzd.ru/ticket/secure/ru?STRUCTURE_ID=5235&refererVpId=1&refererPageId=704"]')) }
     }
 
     def listOfDeparturesIsDisplayed(){
@@ -63,20 +66,29 @@ class Passengers extends GrayBlock_Base {
 
     def selectDepartureStationByClick(String station){
         Field_Departure.value(station.substring(0, 3))
-        $(By.className('dropList'))[0].children().each {
-            if (it.getAttribute('textContent') == station) {
-                it.click()
-        }
+        waitFor { Field_Departure.value() == station.substring(0, 3) }
+        Actions actions = new Actions(browser.driver);
+        def listOfStations = $(By.className('dropList'))[0].children()
+        (0..listOfStations.size() - 1).each {
+            if (listOfStations[it].getAttribute('textContent') == station) {
+                WebElement webStation
+                waitFor { webStation = browser.driver.findElement(By.xpath("//div[@class='dropList']/div[\"$it\"]")) }
+                actions.moveToElement(webStation).click().build().perform();
+                waitFor { Field_Departure.value() == station }
+                return true
+            }
         }
     }
 
     def selectDestinationStationByClick(String station){
-        Field_Destination.value(station.substring(0, 3))
-        $(By.className('dropList'))[1].children().each {
-            if (it.getAttribute('textContent') == station) {
-                it.click()
+        Field_Destination.value(station)
+        def listOfStations = $(By.className('dropList'))[1].children()
+        (0..listOfStations.size() - 1).each {
+            if (listOfStations[it].getAttribute('textContent') == station) {
+                listOfStations[it].click()
             }
         }
+        waitFor {  Field_Destination.value() == station }
     }
 
     def selectDepartureStationByKeyPressing(String station){
